@@ -6,14 +6,12 @@ from pygame import mixer
 import time
 import pandas
 
-
 mixer.init()
 sound = mixer.Sound('alarm.wav')
 
 face = cv2.CascadeClassifier('./haar cascade files/frontal_face.xml')
 leye = cv2.CascadeClassifier('./haar cascade files/left_eye.xml')
 reye = cv2.CascadeClassifier('./haar cascade files/right_eye.xml')
-
 
 
 lbl=['Close','Open']
@@ -27,7 +25,6 @@ score=0
 thicc=2
 rpred=[99]
 lpred=[99]
-
 while(True):
     ret, frame = cap.read()
     height,width = frame.shape[:2] 
@@ -51,7 +48,7 @@ while(True):
         r_eye= r_eye/255
         r_eye=  r_eye.reshape(24,24,-1)
         r_eye = np.expand_dims(r_eye,axis=0)
-        rpred = model.predict_classes(r_eye)
+        rpred = np.argmax(model.predict(r_eye),axis=-1)
         if(rpred[0]==1):
             lbl='Open' 
         if(rpred[0]==0):
@@ -66,7 +63,8 @@ while(True):
         l_eye= l_eye/255
         l_eye=l_eye.reshape(24,24,-1)
         l_eye = np.expand_dims(l_eye,axis=0)
-        lpred = model.predict_classes(l_eye)
+        lpred = np.argmax(model.predict(l_eye),axis=-1)
+
         if(lpred[0]==1):
             lbl='Open'   
         if(lpred[0]==0):
