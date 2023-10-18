@@ -50,6 +50,9 @@ lbl=['Close','Open']
 model = load_model('models/cnnCat2.h5')
 path = os.getcwd()
 cap = cv2.VideoCapture(0)
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(5, 30)
 font = cv2.FONT_HERSHEY_COMPLEX_SMALL
 count=0
 score=0
